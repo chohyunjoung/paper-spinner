@@ -52,64 +52,28 @@
   to { transform: rotate(360deg) }
 }
 
+/**
+ * HACK: Even though the intention is to have the current .spinner-layer at
+ * `opacity: 1`, we set it to `opacity: 0.99` instead since this forces Chrome
+ * to do proper subpixel rendering for the elements being animated. This is
+ * especially visible in Chrome 39 on Ubuntu 14.04. See:
+ *
+ * - https://github.com/Polymer/paper-spinner/issues/9
+ * - https://code.google.com/p/chromium/issues/detail?id=436255
+ */
 .spinner-layer {
   position: absolute;
   width: 100%;
   height: 100%;
   opacity: 0;
-}
-
-.blue {
   border-color: #4285f4;
 }
 
-.red {
-  border-color: #db4437;
-}
-
-.yellow {
-  border-color: #f4b400;
-}
-
-.green {
-  border-color: #0f9d58;
-}
-
-/**
- * IMPORTANT NOTE ABOUT CSS ANIMATION PROPERTIES (keanulee):
- *
- * iOS Safari (tested on iOS 8.1) does not handle animation-delay very well - it doesn't
- * guarantee that the animation will start _exactly_ after that value. So we avoid using
- * animation-delay and instead set custom keyframes for each color (as redundant as it
- * seems).
- *
- * We write out each animation in full (instead of separating animation-name,
- * animation-duration, etc.) because under the polyfill, Safari does not recognize those
- * specific properties properly, treats them as -webkit-animation, and overrides the
- * other animation rules. See https://github.com/Polymer/platform/issues/53.
- */
-.active .spinner-layer.blue {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.red {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.yellow {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.green {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+.active .spinner-layer {
+  opacity: 0.99;
+  /* duration: 4 * ARCTIME */
+  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
 }
 
 @-webkit-keyframes fill-unfill-rotate {
@@ -132,81 +96,6 @@
   75%   { transform: rotate(810deg);  } /* 3   * ARCSIZE */
   87.5% { transform: rotate(945deg);  } /* 3.5 * ARCSIZE */
   to    { transform: rotate(1080deg); } /* 4   * ARCSIZE */
-}
-
-/**
- * HACK: Even though the intention is to have the current .spinner-layer at
- * `opacity: 1`, we set it to `opacity: 0.99` instead since this forces Chrome
- * to do proper subpixel rendering for the elements being animated. This is
- * especially visible in Chrome 39 on Ubuntu 14.04. See:
- *
- * - https://github.com/Polymer/paper-spinner/issues/9
- * - https://code.google.com/p/chromium/issues/detail?id=436255
- */
-@-webkit-keyframes blue-fade-in-out {
-  from { opacity: 0.99; }
-  25% { opacity: 0.99; }
-  26% { opacity: 0; }
-  89% { opacity: 0; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0.99; }
-}
-
-@keyframes blue-fade-in-out {
-  from { opacity: 0.99; }
-  25% { opacity: 0.99; }
-  26% { opacity: 0; }
-  89% { opacity: 0; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0.99; }
-}
-
-@-webkit-keyframes red-fade-in-out {
-  from { opacity: 0; }
-  15% { opacity: 0; }
-  25% { opacity: 0.99; }
-  50% { opacity: 0.99; }
-  51% { opacity: 0; }
-}
-
-@keyframes red-fade-in-out {
-  from { opacity: 0; }
-  15% { opacity: 0; }
-  25% { opacity: 0.99; }
-  50% { opacity: 0.99; }
-  51% { opacity: 0; }
-}
-
-@-webkit-keyframes yellow-fade-in-out {
-  from { opacity: 0; }
-  40% { opacity: 0; }
-  50% { opacity: 0.99; }
-  75% { opacity: 0.99; }
-  76% { opacity: 0; }
-}
-
-@keyframes yellow-fade-in-out {
-  from { opacity: 0; }
-  40% { opacity: 0; }
-  50% { opacity: 0.99; }
-  75% { opacity: 0.99; }
-  76% { opacity: 0; }
-}
-
-@-webkit-keyframes green-fade-in-out {
-  from { opacity: 0; }
-  65% { opacity: 0; }
-  75% { opacity: 0.99; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0; }
-}
-
-@keyframes green-fade-in-out {
-  from { opacity: 0; }
-  65% { opacity: 0; }
-  75% { opacity: 0.99; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0; }
 }
 
 /**
