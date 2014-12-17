@@ -1,0 +1,7 @@
+{
+  "name": "paper-spinner#gh-pages",
+  "private": true,
+  "dependencies": {
+    "paper-spinner": "polymer/paper-spinner#master"
+  }
+}
